@@ -13,8 +13,6 @@
 
 <template name="browserView">
   <div id="browser-view">
-    <input type="text" value="http://google.com" />
-    <button>Check</button>
     <p>The site title is "{{title}}".</p>
     <img src="data:image/png;base64,{{screenshoot}}" />
   </div>
@@ -27,7 +25,7 @@
 
       page.viewportSize = viewportSize;
 
-      page.open(url, function (status) {
+      page.open("http://google.com", function (status) {
         //Page is loaded!
         console.log("Page Opened!");
         var base64 = page.renderBase64('PNG');
@@ -44,5 +42,6 @@
         //phantom.exit();
       });
     </textarea>
+    <button>Run</button>
   </div>
 </template>
