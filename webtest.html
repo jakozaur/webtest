@@ -5,12 +5,44 @@
 <body>
   <h1>Check title of any webpage:</h1>
 
-  {{> hello}}
+  <div class="container">
+    {{> browserView}}
+    {{> phantomjsCode}}
+  </div>
 </body>
 
-<template name="hello">
-  <input type="text" value="http://google.com" />
-  <button>Check</button>
-  <p>The site title is "{{title}}".</p>
-  <img width="{{width}}" height="{{height}}" src="data:image/png;base64,{{screenshoot}}" />
+<template name="browserView">
+  <div id="browser-view">
+    <input type="text" value="http://google.com" />
+    <button>Check</button>
+    <p>The site title is "{{title}}".</p>
+    <img src="data:image/png;base64,{{screenshoot}}" />
+  </div>
+</template>
+
+<template name="phantomjsCode">
+  <div id="phantomjs-code">
+    <textarea>
+      var page = require('webpage').create();
+
+      page.viewportSize = viewportSize;
+
+      page.open(url, function (status) {
+        //Page is loaded!
+        console.log("Page Opened!");
+        var base64 = page.renderBase64('PNG');
+        var title = page.evaluate(function () {
+          return document.title;
+        });
+
+        var result = {
+          'screenshootPngBase64': base64,
+          'title': title
+        };
+
+        callback(undefined, result);
+        //phantom.exit();
+      });
+    </textarea>
+  </div>
 </template>
