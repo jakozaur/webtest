@@ -1,0 +1,16 @@
+<head>
+  <title>webtest</title>
+</head>
+
+<body>
+  <h1>Check title of any webpage:</h1>
+
+  {{> hello}}
+</body>
+
+<template name="hello">
+  <input type="text" value="http://google.com" />
+  <button>Check</button>
+  <p>The site title is "{{title}}".</p>
+  <img width="{{width}}" height="{{height}}" src="data:image/png;base64,{{screenshoot}}" />
+</template>
