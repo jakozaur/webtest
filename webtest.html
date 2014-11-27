@@ -21,28 +21,7 @@
 
 <template name="phantomjsCode">
   <div id="phantomjs-code">
-    <textarea>
-      var page = require('webpage').create();
-
-      page.viewportSize = viewportSize;
-
-      page.open("http://google.com", function (status) {
-        //Page is loaded!
-        console.log("Page Opened!");
-        var base64 = page.renderBase64('PNG');
-        var title = page.evaluate(function () {
-          return document.title;
-        });
-
-        var result = {
-          'screenshootPngBase64': base64,
-          'title': title
-        };
-
-        callback(undefined, result);
-        //phantom.exit();
-      });
-    </textarea>
+    {{> CodeMirror id="code-editor" name="codeEditor" options=options code=code}}
     <button>Run</button>
   </div>
 </template>

@@ -23,7 +23,7 @@ h1 {
   position: relative;
 }
 
-#phantomjs-code textarea {
+#phantomjs-code .CodeMirror {
   width: 100%;
   height: calc(100% - 35px);
   position: absolute;
