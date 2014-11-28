@@ -9,46 +9,60 @@ Meteor.startup(function () {
 Meteor.methods({
   runPhantomJsCode: function(code, viewportSize) {
     function runCode(code, viewportSize, callbackOrigin) {
-      var logs = [];
+      var result = {
+        logs: [],
+        screenshoots: []
+      };
       var page = require('webpage').create();
 
       page.viewportSize = viewportSize;
       page.clipRect = viewportSize;
 
+
+
       page.onConsoleMessage = function (msg) {
-        logs.push({
-          type: 'site',
+        result.logs.push({
+          type: "site",
           message: msg
         });
       }
 
       page.onError = function (msg, trace) {
-        logs.push({
-          type: 'site error',
+        result.logs.push({
+          type: "site error",
           message: msg,
           trace: trace
         });
       }
 
       console.log = function (msg) {
-        logs.push({
-          type: 'phantom',
+        result.logs.push({
+          type: "phantom",
           message: msg
+        });
+      }
+
+      var myPage = Object.create(page);
+      myPage.render = function(name) {
+        result.screenshoots.push({
+          name: name,
+          image: page.renderBase64('PNG')
         });
       }
 
       var phantom = {
         // more phantom functions?
         exit: function () {
-          callbackOrigin(undefined, {
-            logs: logs,
-            screenshootPngBase64: page.renderBase64('PNG')
+          result.screenshoots.push({
+            name: "phantom.exit()",
+            image: page.renderBase64('PNG')
           });
+          callbackOrigin(undefined, result);
         }
       };
       var func = new Function('page', 'phantom', code);
 
-      return func(page, phantom);
+      return func(myPage, phantom);
     }
     var result = phantom(runCode, code, viewportSize);
     return result;
