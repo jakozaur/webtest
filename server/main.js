@@ -29,11 +29,18 @@ Meteor.methods({
           message: msg
         });
       }
-      function callback (error, result) {
-        result.logs = logs;
-        callbackOrigin(error, result);
-      }
-      return eval(code);
+
+      var phantom = {
+        // more phantom functions?
+        exit: function () {
+          callbackOrigin(undefined, {
+            logs: logs,
+            screenshootPngBase64: page.renderBase64('PNG')
+          });
+        }
+      };
+      var func = new Function('page', 'phantom', code);
+      return func(page, phantom);
     }
     var result = phantom(runCode, code, viewportSize);
     return result;

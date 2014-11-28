@@ -33,8 +33,7 @@ page.open(\"http://google.com\", function (status) {\n\
     'title': title\n\
   };\n\
 \n\
-  callback(undefined, result);\n\
-  //phantom.exit();\n\
+  phantom.exit();\n\
 });\n\
     ";
   }
