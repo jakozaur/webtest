@@ -1,8 +1,22 @@
 Template.phantomjsCode.helpers({
+  optionsHead: function () {
+    return {
+      mode: 'javascript',
+      theme: '3024-night',
+      lineNumbers: true,
+      readOnly: true
+    };
+  },
+  codeHead: function () {
+    return ["var page = require('webpage').create();",
+      "// ... We take care of logs and screenshots.",
+      "// Put your code below..."].join("\n");
+  },
   options: function () {
     return {
       mode: 'javascript',
-      lineNumbers: true
+      lineNumbers: true,
+      firstLineNumber: 4
     };
   },
   code: function () {

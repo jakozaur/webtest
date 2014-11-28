@@ -30,12 +30,17 @@ h1, h2 {
   position: relative;
 }
 
-#phantomjs-code .CodeMirror {
+#code-mirror-container {
   width: 100%;
-  height: calc(100% - 115px);
   position: absolute;
   overflow: scroll;
   border: 1px solid black;
+  height: calc(100% - 115px);
+}
+
+#code-mirror-container .CodeMirror {
+  width: 100%;
+  height: auto;
 }
 
 #phantomjs-code button {

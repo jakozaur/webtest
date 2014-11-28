@@ -24,7 +24,10 @@
 <template name="phantomjsCode">
   <div id="phantomjs-code">
     <h2>Write your tests in PhantomJS below</h2>
-    {{> CodeMirror id="code-editor" name="codeEditor" options=options code=code}}
+    <div id="code-mirror-container">
+      {{> CodeMirror id="code-head" name="codeHead" options=optionsHead code=codeHead}}
+      {{> CodeMirror id="code" name="code" options=options code=code}}
+    </div>
     <button>Run</button>
   </div>
 </template>
