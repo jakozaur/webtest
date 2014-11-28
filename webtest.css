@@ -38,13 +38,19 @@ h1, h2 {
 }
 
 #phantomjs-code button {
-  padding: 11px 20px;
+  padding: 11px 25px;
   position: absolute;
   bottom: 0;
   font-size: 90%;
+  border: none;
+  background-color: #bbbbbb;
+  border-radius: 5px;
 }
 
 
+#phantomjs-code button:hover {
+  background-color: #939393;
+}
 
 
 
