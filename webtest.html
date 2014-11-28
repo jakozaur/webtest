@@ -21,12 +21,19 @@
     {{#each tabs}}
       {{> browserViewTab}}
     {{/each}}
-    <img src="data:image/png;base64,{{screenshoot}}" />
+    <p>Url: {{url}}</p>
+    {{#each screenshoots}}
+      {{> browserViewScreenshoot}}
+    {{/each}}
   </div>
 </template>
 
 <template name="browserViewTab">
   <button>{{name}}</button>
+</template>
+
+<template name="browserViewScreenshoot">
+  <img class="{{selected}}" src="data:image/png;base64,{{image}}" />
 </template>
 
 <template name="phantomjsCode">
@@ -52,6 +59,3 @@
 <template name="consoleLogMessage">
   <p><span class="{{typeClass}} icon">{{type}}</span> {{message}}</p>
 </template>
-
-
-

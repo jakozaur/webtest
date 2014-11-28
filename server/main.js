@@ -46,6 +46,7 @@ Meteor.methods({
       myPage.render = function(name) {
         result.screenshoots.push({
           name: name,
+          url: page.url,
           image: page.renderBase64('PNG')
         });
       }
@@ -54,6 +55,7 @@ Meteor.methods({
       myPhantom.exit = function () {
         result.screenshoots.push({
           name: "phantom.exit()",
+          url: page.url,
           image: page.renderBase64('PNG')
         });
         callbackOrigin(undefined, result);

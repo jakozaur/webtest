@@ -19,8 +19,13 @@ p {
 }
 
 #browser-view img {
+  display: none;
   max-width: 100%;
   border: 1px solid black;
+}
+
+#browser-view img.selected {
+  display: block;
 }
 
 .container .slider {
@@ -80,22 +85,9 @@ p {
 }
 
 .site {
-  background-color: #d27f00; 
+  background-color: #d27f00;
 }
 
 .site-error {
   background-color: #ff0000;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
