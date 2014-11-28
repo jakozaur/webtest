@@ -8,6 +8,8 @@ Meteor.startup(function () {
 
 Meteor.methods({
   runPhantomJsCode: function(code, viewportSize) {
+    this.unblock(); // trick to run again
+
     function runCode(code, viewportSize, callbackOrigin) {
       var result = {
         logs: [],
@@ -17,8 +19,6 @@ Meteor.methods({
 
       page.viewportSize = viewportSize;
       page.clipRect = viewportSize;
-
-
 
       page.onConsoleMessage = function (msg) {
         result.logs.push({
@@ -50,19 +50,17 @@ Meteor.methods({
         });
       }
 
-      var phantom = {
-        // more phantom functions?
-        exit: function () {
-          result.screenshoots.push({
-            name: "phantom.exit()",
-            image: page.renderBase64('PNG')
-          });
-          callbackOrigin(undefined, result);
-        }
-      };
+      var myPhantom = Object.create(phantom);
+      myPhantom.exit = function () {
+        result.screenshoots.push({
+          name: "phantom.exit()",
+          image: page.renderBase64('PNG')
+        });
+        callbackOrigin(undefined, result);
+      }
       var func = new Function('page', 'phantom', code);
 
-      return func(myPage, phantom);
+      return func(myPage, myPhantom);
     }
     var result = phantom(runCode, code, viewportSize);
     return result;
