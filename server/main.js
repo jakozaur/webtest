@@ -9,9 +9,23 @@ Meteor.startup(function () {
 Meteor.methods({
   runPhantomJsCode: function(code, viewportSize) {
     function runCode(code, viewportSize, callbackOrigin) {
+      var page = require('webpage').create();
+
+      page.viewportSize = viewportSize;
+      page.clipRect = viewportSize;
+
       var logs = [];
+
+      page.onConsoleMessage = function (msg) {
+        logs.push({
+          type: 'webpage',
+          message: msg
+        });
+      }
+
       console.log = function (msg) {
         logs.push({
+          type: 'phantom',
           message: msg
         });
       }

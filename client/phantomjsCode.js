@@ -9,8 +9,7 @@ Template.phantomjsCode.helpers({
   },
   codeHead: function () {
     return ["var page = require('webpage').create();",
-      "// ... We take care of logs and screenshots.",
-      "// Put your code below..."].join("\n");
+      "// ... We take care of setup, put your code below..."].join("\n");
   },
   options: function () {
     return {
@@ -21,10 +20,6 @@ Template.phantomjsCode.helpers({
   },
   code: function () {
     return "\
-var page = require('webpage').create();\n\
-\n\
-page.viewportSize = viewportSize;\n\
-\n\
 page.open(\"http://google.com\", function (status) {\n\
   //Page is loaded!\n\
   console.log(\"Page Opened!\");\n\
@@ -47,7 +42,7 @@ page.open(\"http://google.com\", function (status) {\n\
 
 Template.phantomjsCode.events({
   'click button': function (event, tmpl) {
-    var code = tmpl.$('textarea').val();
+    var code = tmpl.$('#code').val();
     console.log("Running PhantomJS code '%s'", code);
     var viewportSize = {
       width: Session.get('viewportWidth'),
@@ -56,7 +51,6 @@ Template.phantomjsCode.events({
     Meteor.call('runPhantomJsCode', code, viewportSize,
         function (error, result) {
       console.log("The result title is %s, errors %s", result, error);
-      Session.set('title', result.title);
       Session.set('screenshoot', result.screenshootPngBase64);
       Session.set('logs', result.logs);
     });
