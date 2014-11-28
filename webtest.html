@@ -10,6 +10,7 @@
     {{> browserView}}
     <div class="slider"></div>
     {{> phantomjsCode}}
+    {{> consoleLog}}
   </div>
 </body>
 
@@ -25,5 +26,16 @@
     <h2>Write your tests in PhantomJS below</h2>
     {{> CodeMirror id="code-editor" name="codeEditor" options=options code=code}}
     <button>Run</button>
+  </div>
+</template>
+
+<template name="consoleLog">
+  <div id="console-log">
+    <p>Console log</p>
+    <ul>
+      {{#each logs}}
+        <li>{{message}}</li>
+      {{/each}}
+    </ul>
   </div>
 </template>

@@ -44,6 +44,7 @@ Template.phantomjsCode.events({
       console.log("The result title is %s, errors %s", result, error);
       Session.set('title', result.title);
       Session.set('screenshoot', result.screenshootPngBase64);
+      Session.set('logs', result.logs);
     });
   }
 });

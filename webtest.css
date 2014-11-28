@@ -6,6 +6,7 @@ h1, h2 {
 .container {
   display: -webkit-flex;
   display: flex;
+  flex-wrap: wrap;
 }
 
 #browser-view {
@@ -47,11 +48,10 @@ h1, h2 {
   border-radius: 5px;
 }
 
-
 #phantomjs-code button:hover {
   background-color: #939393;
 }
 
-
-
-
+#console-log {
+  width: 100%;
+}

@@ -8,7 +8,17 @@ Meteor.startup(function () {
 
 Meteor.methods({
   runPhantomJsCode: function(code, viewportSize) {
-    function runCode(code, viewportSize, callback) {
+    function runCode(code, viewportSize, callbackOrigin) {
+      var logs = [];
+      console.log = function (msg) {
+        logs.push({
+          message: msg
+        });
+      }
+      function callback (error, result) {
+        result.logs = logs;
+        callbackOrigin(error, result);
+      }
       return eval(code);
     }
     var result = phantom(runCode, code, viewportSize);
