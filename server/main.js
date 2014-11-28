@@ -9,17 +9,24 @@ Meteor.startup(function () {
 Meteor.methods({
   runPhantomJsCode: function(code, viewportSize) {
     function runCode(code, viewportSize, callbackOrigin) {
+      var logs = [];
       var page = require('webpage').create();
 
       page.viewportSize = viewportSize;
       page.clipRect = viewportSize;
 
-      var logs = [];
-
       page.onConsoleMessage = function (msg) {
         logs.push({
-          type: 'webpage',
+          type: 'site',
           message: msg
+        });
+      }
+
+      page.onError = function (msg, trace) {
+        logs.push({
+          type: 'site error',
+          message: msg,
+          trace: trace
         });
       }
 
@@ -40,6 +47,7 @@ Meteor.methods({
         }
       };
       var func = new Function('page', 'phantom', code);
+
       return func(page, phantom);
     }
     var result = phantom(runCode, code, viewportSize);
