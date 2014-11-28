@@ -1,6 +1,7 @@
 <head>
   <title>webtest</title>
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -34,11 +35,16 @@
 
 <template name="consoleLog">
   <div id="console-log">
-    <p>Console log</p>
-    <ul>
+    <p>Console logs</p>
       {{#each logs}}
-        <li>[{{type}}] {{message}}</li>
+        {{> consoleLogMessage}}
       {{/each}}
-    </ul>
   </div>
 </template>
+
+<template name="consoleLogMessage">
+  <p><span class="{{typeClass}} icon">{{type}}</span> {{message}}</p>
+</template>
+
+
+

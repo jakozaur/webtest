@@ -1,8 +1,13 @@
 /* CSS declarations go here */
 h1, h2 {
   font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 300;
 }
 
+p {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+}
 .container {
   display: -webkit-flex;
   display: flex;
@@ -60,3 +65,36 @@ h1, h2 {
 #console-log {
   width: 100%;
 }
+
+.icon {
+  color: white;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin-right: 5px;
+  font-weight: 300;
+}
+
+.phantom {
+  background-color: #00aff0;
+}
+
+.site {
+  background-color: #d27f00; 
+}
+
+.site-error {
+  background-color: #ff0000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
