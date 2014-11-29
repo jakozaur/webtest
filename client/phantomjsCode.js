@@ -1,3 +1,16 @@
+Session.setDefault('phantomCode', "\
+page.open(\"http://google.com\", function (status) {\n\
+  //Page is loaded!\n\
+  console.log(\"Page Opened!\");\n\
+\n\
+  page.render('Google.png');\n\
+\n\
+  page.open(\"http://jacek.migdal.pl\", function (status) {\n\
+    phantom.exit();\n\
+  });\n\
+\n\
+});");
+
 Template.phantomjsCode.helpers({
   optionsHead: function () {
     return {
@@ -19,22 +32,14 @@ Template.phantomjsCode.helpers({
     };
   },
   code: function () {
-    return "\
-page.open(\"http://google.com\", function (status) {\n\
-  //Page is loaded!\n\
-  console.log(\"Page Opened!\");\n\
- \n\
-  page.render('Google.png');\n\
- \n\
-  page.open(\"http://jacek.migdal.pl\", function (status) {\n\
-  	phantom.exit();\n\
-  });\n\
-\n\
-});";
+    return Session.get('phantomCode');
   }
 });
 
 Template.phantomjsCode.events({
+  'input #code': function (event, tmpl) {
+    Session.set('phantomCode', tmpl.$('#code').val());
+  },
   'click button': function (event, tmpl) {
     var code = tmpl.$('#code').val();
     console.log("Running PhantomJS code '%s'", code);
