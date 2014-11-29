@@ -21,7 +21,7 @@
     {{#each tabs}}
       {{> browserViewTab}}
     {{/each}}
-    <p>Url: {{url}}</p>
+    <p>{{url}}</p>
     {{#each screenshoots}}
       {{> browserViewScreenshoot}}
     {{/each}}
@@ -29,7 +29,7 @@
 </template>
 
 <template name="browserViewTab">
-  <button>{{name}}</button>
+  <div class="view-tab {{selected}}">{{name}}</div>
 </template>
 
 <template name="browserViewScreenshoot">

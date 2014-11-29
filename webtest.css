@@ -28,6 +28,31 @@ p {
   display: block;
 }
 
+.view-tab {
+  display: inline-block;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  padding: 0 15px;
+  height: 0;
+  line-height: 30px;
+  border-bottom: 30px solid #CCCCCC;
+  border-left: 10px solid transparent; 
+  border-right: 10px solid transparent;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.view-tab.selected {
+  border-bottom: 30px solid #e5e5e5;
+}
+
+#browser-view p {
+  border: 5px solid #e5e5e5;
+  margin: 0;
+  padding: 0 10px;
+  font-weight: 300;
+}
+
 .container .slider {
   -webkit-flex: 1;
   flex: 1;

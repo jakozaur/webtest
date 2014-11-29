@@ -6,7 +6,7 @@ Template.browserView.helpers({
   tabs: function () {
     return Session.get('screenshoots').map(function (item, index) {
       return {
-        id: index,
+        index: index,
         name: item.name
       };
     });
@@ -19,19 +19,25 @@ Template.browserView.helpers({
       item.index = index;
       return item;
     });
-  },
-  screenshoot: function () {
-    var screenshoots = Session.get('screenshoots');
-    return screenshoots[Session.get('screenshootSelected')].image;
   }
 });
 
 Template.browserView.events({
 });
 
+Template.browserViewTab.helpers({
+  selected: function () {
+    if (Session.get('screenshootSelected') == this.index) {
+      return 'selected';
+    } else {
+      return '';
+    }
+  }
+});
+
 Template.browserViewTab.events({
-  'click button': function () {
-    Session.set('screenshootSelected', this.id);
+  'click div': function () {
+    Session.set('screenshootSelected', this.index);
   }
 });
 
