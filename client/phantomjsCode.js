@@ -11,6 +11,8 @@ page.open(\"http://google.com\", function (status) {\n\
 \n\
 });");
 
+Session.setDefault('phantomRun', false);
+
 Template.phantomjsCode.helpers({
   optionsHead: function () {
     return {
@@ -33,6 +35,20 @@ Template.phantomjsCode.helpers({
   },
   code: function () {
     return Session.get('phantomCode');
+  },
+  phantomRun: function () {
+    if (Session.get('phantomRun')) {
+      return "Running";
+    } else {
+      return "Run";
+    };
+  },
+  running: function () {
+    if (Session.get('phantomRun')) {
+      return "refresh";
+    } else {
+      return " ";
+    }
   }
 });
 
@@ -47,6 +63,7 @@ Template.phantomjsCode.events({
       width: Session.get('viewportWidth'),
       height: Session.get('viewportHeight')
     };
+    Session.set('phantomRun', true);
     Meteor.call('runPhantomJsCode', code, viewportSize,
         function (error, result) {
       console.log("The result title is %s, errors %s", result, error);
@@ -54,6 +71,7 @@ Template.phantomjsCode.events({
       Session.set('screenshootSelected', result.screenshoots.length - 1);
 
       Session.set('logs', result.logs);
+      Session.set('phantomRun', false);
     });
   }
 });

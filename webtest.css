@@ -120,3 +120,18 @@ p {
 .site-error {
   background-color: #ff0000;
 }
+
+#phantomjs-code button img {
+  display: none;
+}
+
+#phantomjs-code button img.refresh {
+  width: 15px;
+  height: 15px;
+  margin-left: 10px;
+  display: inline-block;
+}
+
+
+
+

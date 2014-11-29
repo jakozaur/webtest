@@ -42,7 +42,8 @@
       {{> CodeMirror id="code-head" name="codeHead" options=optionsHead code=codeHead}}
       {{> CodeMirror id="code" name="code" options=options code=code}}
     </div>
-    <button>Run</button>
+    <button>{{phantomRun}}<img src="/img/refresh.png" class="spinner {{running}}"></button>
+
   </div>
 </template>
 
@@ -58,3 +59,4 @@
 <template name="consoleLogMessage">
   <p><span class="{{typeClass}} icon">{{type}}</span> {{message}}</p>
 </template>
+
