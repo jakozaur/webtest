@@ -19,9 +19,12 @@ p {
 }
 
 #browser-view img {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   display: none;
   max-width: 100%;
-  border: 1px solid black;
+  border: 1px solid #e5e5e5;
 }
 
 #browser-view img.selected {
@@ -36,7 +39,7 @@ p {
   height: 0;
   line-height: 30px;
   border-bottom: 30px solid #CCCCCC;
-  border-left: 10px solid transparent; 
+  border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   cursor: pointer;
   border-radius: 2px;
