@@ -64,7 +64,16 @@
 
 <template name="sharePopup">
   <div id="sharePopup">
-    <div class="{{show}} content">This is the lightbox content. <a href="#">Close</a></div>
+    <div class="{{show}} content"><p>You can share your code using this link:</p>
+      <input type="text" readonly="readonly" value="{{url}}">
+      <p><a href="#">Close</a></p></div>
     <div class="{{show}} overlay"></div>
   </div>
 </template>
+
+
+
+
+
+
+

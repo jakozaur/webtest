@@ -74,7 +74,6 @@ p {
   position: relative;
 }
 
-
 #code-mirror-container {
   width: 100%;
   margin-top: 30px;
@@ -101,6 +100,7 @@ p {
   background-color: #bbbbbb;
   border-radius: 5px;
   font-weight: 300;
+  cursor: pointer;
 }
 
 #phantomjs-code button:hover {
@@ -150,15 +150,16 @@ p {
 #sharePopup .show.content {
   display: block;
   position: absolute;
-  top: 35%;
+  top: 25%;
   left: 35%;
   width: 30%;
   height: 30%;
   padding: 16px;
-  border: 16px solid #939393;
+  border: 18px solid #939393;
   background-color: white;
   z-index:1002;
   overflow: auto;
+  border-radius: 5px;
 }
 
 #sharePopup .show.overlay {
@@ -174,3 +175,32 @@ p {
   opacity:.80;
   filter: alpha(opacity=80);
 }
+
+#sharePopup a {
+  padding: 10px 25px;
+  background-color: #939393; 
+  border-radius: 5px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  color: black;
+}
+
+#sharePopup input {
+  min-width: 270px;
+  margin-bottom: 12px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

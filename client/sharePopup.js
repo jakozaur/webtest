@@ -5,6 +5,9 @@ Template.sharePopup.helpers({
     } else {
       return '';
     }
+  },
+  url: function () {
+    return Meteor.absoluteUrl(Session.get('showSharePopup')); 
   }
 });
 
@@ -14,5 +17,8 @@ Template.sharePopup.events({
   },
   'click .overlay': function () {
     Session.set('showSharePopup', undefined);
+  },
+  'click input': function (event, tmpl) {
+    tmpl.$('input').select();
   }
 })
