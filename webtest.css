@@ -57,24 +57,23 @@ p {
 }
 
 .container .slider {
-  -webkit-flex: 1;
-  flex: 1;
-  max-width: 10px;
+  width: 10px;
 }
 
 #phantomjs-code {
-  -webkit-flex: 2;
-  flex: 2;
+  -webkit-flex: 1;
+  flex: 1;
   position: relative;
 }
 
 
 #code-mirror-container {
   width: 100%;
+  margin-top: 30px;
   position: absolute;
   overflow: scroll;
   border: 1px solid black;
-  height: calc(100% - 115px);
+  height: calc(100% - 80px);
 }
 
 #code-mirror-container .CodeMirror {
@@ -131,7 +130,3 @@ p {
   margin-left: 10px;
   display: inline-block;
 }
-
-
-
-

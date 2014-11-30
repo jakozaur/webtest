@@ -1,11 +1,11 @@
 <head>
-  <title>webtest</title>
+  <title>PhantomJS Pad - develop and share your code</title>
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-  <h1>Check title of any webpage</h1>
+  <h1>Develop and share your <a href="http://phantomjs.org" target="_blank">PhantomJS</a> code <small>made by <a href="https://twitter.com/jakozaur">@jakozaur</a> and <a href="https://twitter.com/GosiaMigdal">@GosiaMigdal</a></small></h1>
 
   <div class="container">
     {{> browserView}}
@@ -37,7 +37,6 @@
 
 <template name="phantomjsCode">
   <div id="phantomjs-code">
-    <h2>Write your tests in PhantomJS below</h2>
     <div id="code-mirror-container">
       {{> CodeMirror id="code-head" name="codeHead" options=optionsHead code=codeHead}}
       {{> CodeMirror id="code" name="code" options=options code=code}}
@@ -59,4 +58,3 @@
 <template name="consoleLogMessage">
   <p><span class="{{typeClass}} icon">{{type}}</span> {{message}}</p>
 </template>
-
