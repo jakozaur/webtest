@@ -90,6 +90,7 @@ Template.phantomjsCode.events({
     });
     console.log("Saving the fiddle as '%s'", id);
     // TODO: splash screen share
-    // TODO: change the url
+    Session.set('noLoading', true);
+    Router.go('/' + id);
   }
 });
