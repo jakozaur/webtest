@@ -4,9 +4,6 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-insecure
 numtel:phantomjs-persistent-server
 perak:codemirror
 iron:router
-
