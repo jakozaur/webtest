@@ -8,4 +8,5 @@ autopublish
 insecure
 numtel:phantomjs-persistent-server
 perak:codemirror
+iron:router
 

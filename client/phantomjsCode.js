@@ -13,25 +13,35 @@ page.open(\"http://google.com\", function (status) {\n\
 
 Session.setDefault('phantomRun', false);
 
+Template.phantomjsCode.rendered = function () {
+	CodeMirror.fromTextArea(this.find("#code-head"), {
+    mode: 'javascript',
+    theme: '3024-night',
+    lineNumbers: true,
+    readOnly: true
+  });
+
+  var editor = CodeMirror.fromTextArea(this.find("#code"), {
+    mode: 'javascript',
+    lineNumbers: true,
+    firstLineNumber: 4
+  });
+
+  editor.on('change', function(doc) {
+    Session.set('phantomCode', doc.getValue());
+	});
+
+  Tracker.autorun(function () {
+    if (!editor.hasFocus()) {
+      editor.setValue(Session.get('phantomCode'));
+    }
+  });
+}
+
 Template.phantomjsCode.helpers({
-  optionsHead: function () {
-    return {
-      mode: 'javascript',
-      theme: '3024-night',
-      lineNumbers: true,
-      readOnly: true
-    };
-  },
   codeHead: function () {
     return ["var page = require('webpage').create();",
       "// ... We take care of setup, put your code below..."].join("\n");
-  },
-  options: function () {
-    return {
-      mode: 'javascript',
-      lineNumbers: true,
-      firstLineNumber: 4
-    };
   },
   code: function () {
     return Session.get('phantomCode');
@@ -53,18 +63,14 @@ Template.phantomjsCode.helpers({
 });
 
 Template.phantomjsCode.events({
-  'input #code': function (event, tmpl) {
-    Session.set('phantomCode', tmpl.$('#code').val());
-  },
   'click button.run': function (event, tmpl) {
-    var code = tmpl.$('#code').val();
     console.log("Running PhantomJS code '%s'", code);
     var viewportSize = {
       width: Session.get('viewportWidth'),
       height: Session.get('viewportHeight')
     };
     Session.set('phantomRun', true);
-    Meteor.call('runPhantomJsCode', code, viewportSize,
+    Meteor.call('runPhantomJsCode', Session.get('phantomCode'), viewportSize,
         function (error, result) {
       console.log("The result title is %s, errors %s", result, error);
       Session.set('screenshoots', result.screenshoots);

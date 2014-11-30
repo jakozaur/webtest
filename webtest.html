@@ -4,7 +4,7 @@
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 
-<body>
+<template name="main">
   <h1>Develop and share your <a href="http://phantomjs.org" target="_blank">PhantomJS</a> code</h1>
   <h3>made by <a href="https://twitter.com/jakozaur" target="_blank">@jakozaur</a> and <a href="https://twitter.com/GosiaMigdal" target="_blank">@GosiaMigdal</a></h3>
 
@@ -14,7 +14,7 @@
     {{> phantomjsCode}}
     {{> consoleLog}}
   </div>
-</body>
+</template>
 
 <template name="browserView">
   <div id="browser-view">
@@ -39,8 +39,8 @@
 <template name="phantomjsCode">
   <div id="phantomjs-code">
     <div id="code-mirror-container">
-      {{> CodeMirror id="code-head" name="codeHead" options=optionsHead code=codeHead}}
-      {{> CodeMirror id="code" name="code" options=options code=code}}
+      <textarea id="code-head">{{codeHead}}</textarea>
+      <textarea id="code">{{code}}</textarea>
     </div>
     <div class="button-container">
       <button class="run">{{phantomRun}}<img src="/img/refresh.png" class="spinner {{running}}"></button>
