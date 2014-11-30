@@ -41,8 +41,10 @@
       {{> CodeMirror id="code-head" name="codeHead" options=optionsHead code=codeHead}}
       {{> CodeMirror id="code" name="code" options=options code=code}}
     </div>
-    <button>{{phantomRun}}<img src="/img/refresh.png" class="spinner {{running}}"></button>
-
+    <div class="button-container">
+      <button class="run">{{phantomRun}}<img src="/img/refresh.png" class="spinner {{running}}"></button>
+      <button class="share">Share</button>
+    </div>
   </div>
 </template>
 

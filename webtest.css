@@ -81,10 +81,13 @@ p {
   height: auto;
 }
 
-#phantomjs-code button {
-  padding: 11px 25px;
+#phantomjs-code .button-container {
   position: absolute;
   bottom: 0;
+}
+
+#phantomjs-code button {
+  padding: 11px 25px;
   font-size: 90%;
   border: none;
   background-color: #bbbbbb;

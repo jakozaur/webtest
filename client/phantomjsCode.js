@@ -56,7 +56,7 @@ Template.phantomjsCode.events({
   'input #code': function (event, tmpl) {
     Session.set('phantomCode', tmpl.$('#code').val());
   },
-  'click button': function (event, tmpl) {
+  'click button.run': function (event, tmpl) {
     var code = tmpl.$('#code').val();
     console.log("Running PhantomJS code '%s'", code);
     var viewportSize = {
@@ -73,5 +73,17 @@ Template.phantomjsCode.events({
       Session.set('logs', result.logs);
       Session.set('phantomRun', false);
     });
+  },
+  'click button.share': function () {
+    var id = Fiddle.insert({
+      code: Session.get('phantomCode'),
+      logs: Session.get('logs'),
+      screenshoots: Session.get('screenshoots'),
+      screenshootSelected: Session.get('screenshootSelected'),
+      createdAt: new Date()
+    });
+    console.log("Saving the fiddle as '%s'", id);
+    // TODO: splash screen share
+    // TODO: change the url
   }
 });
