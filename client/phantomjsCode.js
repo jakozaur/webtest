@@ -89,8 +89,7 @@ Template.phantomjsCode.events({
       createdAt: new Date()
     });
     console.log("Saving the fiddle as '%s'", id);
-    // TODO: splash screen share
-    Session.set('noLoading', true);
+    Session.set('showSharePopup', id);
     Router.go('/' + id);
   }
 });

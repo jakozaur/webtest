@@ -13,6 +13,7 @@
     {{> phantomjsCode}}
     {{> consoleLog}}
   </div>
+  {{> sharePopup}}
 </template>
 
 <template name="browserView">
@@ -61,12 +62,9 @@
   <p><span class="{{typeClass}} icon">{{type}}</span> {{message}}</p>
 </template>
 
-
-
-
-
-
-
-
-
-
+<template name="sharePopup">
+  <div id="sharePopup">
+    <div class="{{show}} content">This is the lightbox content. <a href="#">Close</a></div>
+    <div class="{{show}} overlay"></div>
+  </div>
+</template>
