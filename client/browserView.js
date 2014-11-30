@@ -49,4 +49,5 @@ Template.browserViewScreenshoot.helpers({
       return '';
     }
   }
+
 });
