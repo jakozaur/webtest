@@ -24,7 +24,7 @@ Template.phantomjsCode.rendered = function () {
   var editor = CodeMirror.fromTextArea(this.find("#code"), {
     mode: 'javascript',
     lineNumbers: true,
-    firstLineNumber: 4
+    firstLineNumber: 3
   });
 
   editor.on('change', function(doc) {
@@ -64,7 +64,7 @@ Template.phantomjsCode.helpers({
 
 Template.phantomjsCode.events({
   'click button.run': function (event, tmpl) {
-    console.log("Running PhantomJS code '%s'", code);
+    console.log("Running PhantomJS code '%s'", Session.get('phantomCode'));
     var viewportSize = {
       width: Session.get('viewportWidth'),
       height: Session.get('viewportHeight')
