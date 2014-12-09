@@ -1,9 +1,9 @@
 
-
-Tinytest.addAsync('get title of google.com', function (test, next) {
-  PhantomJs.run(function (callback) {
+Tinytest.addAsync('get title of a page', function (test, next) {
+  var swarm = new PhantomJsSwarm();
+  swarm.run(function (callback) {
     var page = require('webpage').create();
-    page.open('http://google.com', function () {
+    page.open("http://127.0.0.1:3000/http_test_responder", function () {
       var title = page.evaluate(function () {
         return document.title;
       });
@@ -18,7 +18,8 @@ Tinytest.addAsync('get title of google.com', function (test, next) {
 });
 
 Tinytest.addAsync('return error if JavaScript is broken', function (test, next) {
-  PhantomJs.run(function (callback) {
+  var swarm = new PhantomJsSwarm();
+  swarm.run(function (callback) {
     This_is_a_bug;
   }, [], function (error, result) {
     test.equal(error, {"error":400,"reason":"ReferenceError: Can\'t find variable: This_is_a_bug"});
@@ -28,7 +29,8 @@ Tinytest.addAsync('return error if JavaScript is broken', function (test, next) 
 });
 
 Tinytest.addAsync('times out on forever loop', function (test, next) {
-  PhantomJs.run(function (callback) {
+  var swarm = new PhantomJsSwarm();
+  swarm.run(function (callback) {
     while (true) {}
   }, [], function (error, result) {
     test.equal(error, {"code":408,"reason":"The code has timed out"} );

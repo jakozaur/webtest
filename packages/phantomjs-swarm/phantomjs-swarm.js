@@ -4,15 +4,11 @@ var fs = Npm.require('fs')
 // We keep them to trac who use them
 var PhantomJsServers = new Mongo.Collection('phantomjs_collection');
 
-PhantomJs = {
-  initialize: function() {
+PhantomJsSwarm = function () {
+  // write init here
+}
 
-  },
-
-  // Run PhantomJs code
-  // - func: JavaSctipt function
-  // - args: passed to function
-  // - callback: called at the end with (error, result)
+_.extend(PhantomJsSwarm.prototype, {
   run: function(func, args, callback) {
     var cmd, port = 4005;
     // TODO: Get port
@@ -71,7 +67,5 @@ PhantomJs = {
       };
     }));
 
-
-
   }
-};
+});
