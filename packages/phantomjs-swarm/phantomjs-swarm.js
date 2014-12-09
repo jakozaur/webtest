@@ -45,12 +45,15 @@ PhantomJs = {
             headers: {'Content-Length': request.length},
             content: request
           }, function (error, result) {
-            console.log("PhantomJs.run(): got response");
+            console.log(error);
+            console.log("PhantomJs.run(): got response", error, "result", result);
             cmd.kill();
+            if (error) {
+              callback(JSON.parse(error.response.content), null)
+            } else {
+              callback(null, JSON.parse(result.content));
+            }
             // TODO: return port
-            // TODO: handle errors
-            var resultContent = JSON.parse(result.content);
-            callback(error, resultContent);
           });
         } catch (e) {
           console.log("Error while HTTP POST")

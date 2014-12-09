@@ -16,7 +16,7 @@ var service = server.listen(port, {
 }, function(request, response) {
   console.log("Phantom: Got request!")
 
-  if(request.post){
+  if (request.post) {
     console.log("Phantom: POST request");
     var packetData = JSON.parse(request.post);
     var func = eval('(' + packetData.func + ')');
@@ -26,35 +26,34 @@ var service = server.listen(port, {
 
     var funcCallback = function(error, result){
       var output;
-      if (error){
-        response.statusCode = 500;
-        output = {error: 500, reason: error};
-      }else{
+      if (error) {
+        response.statusCode = 501;
+        output = {error: 501, reason: error};
+      } else {
         response.statusCode = 200;
         output = result;
-      };
+      }
       var outputString = JSON.stringify(output || null);
       response.setHeader('Content-Length', outputString.length);
       response.write(outputString);
       response.close();
-    };
+    }
     args.push(funcCallback);
-    try{
+    try {
       console.log("Phantom: Starting function");
       func.apply(this, args);
       console.log("Phantom: Ending function");
-
-    }catch(err){
-      response.statusCode = 500;
-      var output = {error: 500, reason: err.toString()};
+    } catch(err) {
+      response.statusCode = 400;
+      var output = {error: 400, reason: err.toString()};
       var outputString = JSON.stringify(output);
       response.setHeader('Content-Length', outputString.length);
       response.write(outputString);
       response.close();
     };
-  }else{
-    response.statusCode = 400;
-    var error = {error: 400, reason: 'post-required', req: request};
+  } else {
+    response.statusCode = 405;
+    var error = {error: 405, reason: 'post-required', req: request};
     var errorString = JSON.stringify(error);
     response.setHeader('Content-Length', errorString.length);
     response.write(errorString);
