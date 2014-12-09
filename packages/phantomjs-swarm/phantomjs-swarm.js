@@ -43,22 +43,29 @@ PhantomJs = {
         try {
           HTTP.post('http://localhost:' + port + '/', {
             headers: {'Content-Length': request.length},
-            content: request
+            content: request,
+            timeout: 10000 // 10 s
           }, function (error, result) {
             console.log(error);
             console.log("PhantomJs.run(): got response", error, "result", result);
             cmd.kill();
+            cmd.kill('SIGKILL');
+            // TODO: return port
             if (error) {
-              callback(JSON.parse(error.response.content), null)
+              if (error.code == 'ETIMEDOUT' || error.code == 'ESOCKETTIMEDOUT') {
+                callback({code: 408, reason: 'The code has timed out'}, null);
+              } else {
+                callback(JSON.parse(error.response.content), null)
+              }
             } else {
               callback(null, JSON.parse(result.content));
             }
-            // TODO: return port
           });
         } catch (e) {
           console.log("Error while HTTP POST")
           // TODO: return port
           cmd.kill();
+          cmd.kill('SIGKILL');
           callback(e);
         }
       };
