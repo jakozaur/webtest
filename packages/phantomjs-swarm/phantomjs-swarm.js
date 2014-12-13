@@ -5,6 +5,10 @@ var fs = Npm.require('fs')
 var PhantomJsServers = new Mongo.Collection('phantomjs_collection');
 
 PhantomJsSwarm = function () {
+  var self = this;
+  if (! (self instanceof PhantomJsSwarm))
+    throw new Error("use 'new' to construct a PhantomJsSwarm");
+
   // write init here
 }
 

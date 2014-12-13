@@ -1,6 +1,16 @@
 
 var baseUrl = Meteor.absoluteUrl();
 
+Tinytest.add('need to be create with new', function (test) {
+  var ex;
+  try {
+    PhantomJsSwarm()
+  } catch (e) {
+    ex = e
+  }
+  test.instanceOf(ex, Error);
+});
+
 Tinytest.addAsync('get title of a page', function (test, next) {
   var swarm = new PhantomJsSwarm();
   swarm.run(function (baseUrl, callback) {
