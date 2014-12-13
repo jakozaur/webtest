@@ -1,16 +1,18 @@
 
+var baseUrl = Meteor.absoluteUrl();
+
 Tinytest.addAsync('get title of a page', function (test, next) {
   var swarm = new PhantomJsSwarm();
-  swarm.run(function (callback) {
+  swarm.run(function (baseUrl, callback) {
     var page = require('webpage').create();
-    page.open("http://127.0.0.1:3000/http_test_responder", function () {
+    page.open(baseUrl + "google-title", function () {
       var title = page.evaluate(function () {
         return document.title;
       });
 
       callback(undefined, title);
     });
-  }, [], function (error, result) {
+  }, [baseUrl], function (error, result) {
     test.equal(error, null);
     test.equal(result, "Google");
     next();

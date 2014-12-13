@@ -21,6 +21,5 @@ Package.onTest(function(api) {
   api.use('webapp', 'server');
   api.use('phantomjs-swarm');
   api.addFiles('test-server.js', 'server');
-  api.export('bbbb');
   api.addFiles('phantomjs-swarm-tests.js', 'server');
 });
