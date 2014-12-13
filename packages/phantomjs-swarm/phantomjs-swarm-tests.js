@@ -41,7 +41,7 @@ Tinytest.addAsync('return error if JavaScript is broken', function (test, next) 
 });
 
 Tinytest.addAsync('times out on forever loop', function (test, next) {
-  var swarm = new PhantomJsSwarm();
+  var swarm = new PhantomJsSwarm({defaultTimeoutMs: 3000});
   swarm.run(function (callback) {
     while (true) {}
   }, [], function (error, result) {

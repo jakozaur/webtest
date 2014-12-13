@@ -4,24 +4,35 @@ var fs = Npm.require('fs')
 // We keep them to trac who use them
 var PhantomJsServers = new Mongo.Collection('phantomjs_collection');
 
-PhantomJsSwarm = function () {
+PhantomJsSwarm = function (options) {
   var self = this;
   if (! (self instanceof PhantomJsSwarm))
     throw new Error("use 'new' to construct a PhantomJsSwarm");
+
+  options = options || {};
+  self.defaultTimeoutMs = options.defaultTimeoutMs || 10000;
+  self._tmpPhantomJsPath = options.tmpPhantomJsPath || '/tmp/phantomjs-temp.js';
+  self.phantomJsPath = options.phantomJsPath || 'phantomjs';
+
+  // create server phantomjs path
+  var err = fs.writeFileSync(self._tmpPhantomJsPath,
+    new Buffer(Assets.getBinary('assets/phantomjs.js')));
+
+  if (err)
+    throw new Error("Can't write server phantomjs file");
 
   // write init here
 }
 
 _.extend(PhantomJsSwarm.prototype, {
   run: function(func, args, callback) {
+    var self = this;
     var cmd, port = 4005;
     // TODO: Get port
 
     console.log("PhantomJs.run(): Launching new PhantomJs");
-    var ret = fs.writeFileSync('/tmp/phantomjs-temp.js',
-      new Buffer(Assets.getBinary('assets/phantomjs.js')));
 
-    cmd = shell.spawn('phantomjs', ['/tmp/phantomjs-temp.js', port]);
+    cmd = shell.spawn(self.phantomJsPath, [self._tmpPhantomJsPath, port]);
 
     //cmd = shell.spawn('phantomjs', [])
 
@@ -44,7 +55,7 @@ _.extend(PhantomJsSwarm.prototype, {
           HTTP.post('http://localhost:' + port + '/', {
             headers: {'Content-Length': request.length},
             content: request,
-            timeout: 10000 // 10 s
+            timeout: self.defaultTimeoutMs
           }, function (error, result) {
             console.log(error);
             console.log("PhantomJs.run(): got response", error, "result", result);
