@@ -13,6 +13,9 @@ PhantomJsSwarm = function (options) {
   self.defaultTimeoutMs = options.defaultTimeoutMs || 10000;
   self._tmpPhantomJsPath = options.tmpPhantomJsPath || '/tmp/phantomjs-temp.js';
   self.phantomJsPath = options.phantomJsPath || 'phantomjs';
+  self._swarmName = options._swarmName || "default";
+  self.threadCount = options.threadCount || 10;
+  self.initialPort = options.initialPort || 4100;
 
   // create server phantomjs path
   var err = fs.writeFileSync(self._tmpPhantomJsPath,
@@ -21,18 +24,31 @@ PhantomJsSwarm = function (options) {
   if (err)
     throw new Error("Can't write server phantomjs file");
 
-  // write init here
+  // Create Mongo lock
+  console.log("Creating Mongo objects");
+  PhantomJsServers.remove({swarmName: self._swarmName});
+  for (var i = 0; i < self.threadCount; ++i) {
+    PhantomJsServers.insert({
+      swarmName: self._swarmName,
+      swarmId: i,
+      port: self.initialPort + i,
+      usedBy: ""
+    });
+  }
 }
 
 _.extend(PhantomJsSwarm.prototype, {
   run: function(func, args, callback) {
     var self = this;
-    var cmd, port = 4005;
-    // TODO: Get port
+    var runId = Random.id();
+    PhantomJsServers.update({usedBy: ""}, {$set: {usedBy: runId}});
+    // TODO: check if right
+    var server = PhantomJsServers.findOne({usedBy: runId});
 
-    console.log("PhantomJs.run(): Launching new PhantomJs");
+    console.log("PhantomJs.run(): Launching new PhantomJs on port", server.port);
 
-    cmd = shell.spawn(self.phantomJsPath, [self._tmpPhantomJsPath, port]);
+    var cmd = shell.spawn(self.phantomJsPath,
+      [self._tmpPhantomJsPath, server.port]);
 
     // debug, later we will send it to logs
     cmd.stderr.on('data', function (data) {
@@ -51,7 +67,7 @@ _.extend(PhantomJsSwarm.prototype, {
         });
 
         try {
-          HTTP.post('http://localhost:' + port + '/', {
+          HTTP.post('http://localhost:' + server.port + '/', {
             headers: {'Content-Length': request.length},
             content: request,
             timeout: self.defaultTimeoutMs
@@ -60,7 +76,7 @@ _.extend(PhantomJsSwarm.prototype, {
             console.log("PhantomJs.run(): got response", error, "result", result);
             cmd.kill();
             cmd.kill('SIGKILL');
-            // TODO: return port
+            PhantomJsServers.update({usedBy: runId}, {$set: {usedBy: ""}});
             if (error) {
               if (error.code == 'ETIMEDOUT' || error.code == 'ESOCKETTIMEDOUT') {
                 callback({code: 408, reason: 'The code has timed out'}, null);
@@ -73,9 +89,9 @@ _.extend(PhantomJsSwarm.prototype, {
           });
         } catch (e) {
           console.log("Error while HTTP POST")
-          // TODO: return port
           cmd.kill();
           cmd.kill('SIGKILL');
+          PhantomJsServers.update({usedBy: runId}, {$set: {usedBy: ""}});
           callback(e);
         }
       };

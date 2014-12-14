@@ -10,6 +10,7 @@ Package.onUse(function(api) {
   api.use('http');
   api.use('mongo');
   api.use('underscore');
+  api.use('random');
   api.addFiles('assets/phantomjs.js', 'server', {isAsset: true});
   api.addFiles('phantomjs-swarm.js', 'server');
 
