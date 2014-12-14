@@ -257,6 +257,9 @@ p {
   margin-bottom: 7px;
 }
 
+#examples .content, #sharePopup .content {
+  text-align: center;
+}
 
 
 
