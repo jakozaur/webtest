@@ -9,36 +9,43 @@ PhantomJsSwarm = function (options) {
   if (! (self instanceof PhantomJsSwarm))
     throw new Error("use 'new' to construct a PhantomJsSwarm");
 
-  options = options || {};
-  self.defaultTimeoutMs = options.defaultTimeoutMs || 10000;
-  self._tmpPhantomJsPath = options.tmpPhantomJsPath || '/tmp/phantomjs-temp.js';
-  self.phantomJsPath = options.phantomJsPath || 'phantomjs';
-  self._swarmName = options._swarmName || "default";
-  self.threadCount = options.threadCount || 10;
-  self.initialPort = options.initialPort || 4100;
+  options = _.extend({
+    defaultTimeoutMs: 10000,
+    tmpPhantomJsPath: '/tmp/phantomjs-temp.js',
+    phantomJsPath: 'phantomjs',
+    swarmName: 'default',
+    threadCount: 10,
+    initialPort: 4100,
+    debugLogs: false
+  }, options || {});
+
+  var log;
+  if (options.debugLogs) {
+    log = console.log;
+  } else {
+    log = function () {};
+  }
 
   // create server phantomjs path
-  var err = fs.writeFileSync(self._tmpPhantomJsPath,
+  var err = fs.writeFileSync(options.tmpPhantomJsPath,
     new Buffer(Assets.getBinary('assets/phantomjs.js')));
 
   if (err)
     throw new Error("Can't write server phantomjs file");
 
-  // Create Mongo lock
-  console.log("Creating Mongo objects");
-  PhantomJsServers.remove({swarmName: self._swarmName});
-  for (var i = 0; i < self.threadCount; ++i) {
+  // Create MongoDB based locks
+  log("Creating Mongo objects");
+  PhantomJsServers.remove({swarmName: options.swarmName});
+  for (var i = 0; i < options.threadCount; ++i) {
     PhantomJsServers.insert({
-      swarmName: self._swarmName,
+      swarmName: options.swarmName,
       swarmId: i,
-      port: self.initialPort + i,
+      port: options.initialPort + i,
       usedBy: ""
     });
   }
-}
 
-_.extend(PhantomJsSwarm.prototype, {
-  run: function(func, args, callback) {
+  self.run = function(func, args, callback) {
     var self = this;
     var runId = Random.id();
     var foundPort = PhantomJsServers.update({usedBy: ""},
@@ -49,21 +56,21 @@ _.extend(PhantomJsSwarm.prototype, {
     }
     var server = PhantomJsServers.findOne({usedBy: runId});
 
-    console.log("PhantomJs.run(): Launching new PhantomJs on port", server.port);
+    log("PhantomJs.run(): Launching new PhantomJs on port", server.port);
 
-    var cmd = shell.spawn(self.phantomJsPath,
-      [self._tmpPhantomJsPath, server.port]);
+    var cmd = shell.spawn(options.phantomJsPath,
+      [options.tmpPhantomJsPath, server.port]);
 
     // debug, later we will send it to logs
     cmd.stderr.on('data', function (data) {
-      console.log("PhantomJS STDERR:", data.toString());
+      log("PhantomJS STDERR:", data.toString());
     });
 
     cmd.stdout.on('data', Meteor.bindEnvironment(function (data) {
-      console.log("PhantomJS STDOUT:", data.toString());
+      log("PhantomJS STDOUT:", data.toString());
       data = String(data).trim();
       if (data.substr(-5) === 'Ready'){
-        console.log("PhantomJs.run(): PhantomJs is ready, sending request");
+        log("PhantomJs.run(): PhantomJs is ready, sending request");
 
         var request = JSON.stringify({
           func: func.toString(),
@@ -74,10 +81,10 @@ _.extend(PhantomJsSwarm.prototype, {
           HTTP.post('http://localhost:' + server.port + '/', {
             headers: {'Content-Length': request.length},
             content: request,
-            timeout: self.defaultTimeoutMs
+            timeout: options.defaultTimeoutMs
           }, function (error, result) {
-            console.log(error);
-            console.log("PhantomJs.run(): got response", error, "result", result);
+            log(error);
+            log("PhantomJs.run(): got response", error, "result", result);
             cmd.kill();
             cmd.kill('SIGKILL');
             PhantomJsServers.update({usedBy: runId}, {$set: {usedBy: ""}});
@@ -92,7 +99,7 @@ _.extend(PhantomJsSwarm.prototype, {
             }
           });
         } catch (e) {
-          console.log("Error while HTTP POST")
+          log("Error while HTTP POST")
           cmd.kill();
           cmd.kill('SIGKILL');
           PhantomJsServers.update({usedBy: runId}, {$set: {usedBy: ""}});
@@ -102,4 +109,4 @@ _.extend(PhantomJsSwarm.prototype, {
     }));
 
   }
-});
+};

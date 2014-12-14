@@ -4,7 +4,7 @@ var baseUrl = Meteor.absoluteUrl();
 Tinytest.add('need to be create with new', function (test) {
   var ex;
   try {
-    PhantomJsSwarm()
+    PhantomJsSwarm();
   } catch (e) {
     ex = e
   }
@@ -12,7 +12,7 @@ Tinytest.add('need to be create with new', function (test) {
 });
 
 Tinytest.addAsync('get title of a page', function (test, next) {
-  var swarm = new PhantomJsSwarm();
+  var swarm = new PhantomJsSwarm({debugLogs: true});
   swarm.run(function (baseUrl, callback) {
     var page = require('webpage').create();
     page.open(baseUrl + "google-title", function () {
@@ -32,7 +32,7 @@ Tinytest.addAsync('get title of a page', function (test, next) {
 Tinytest.addAsync('be able to run in parallel', function (test, next) {
   var count = 0;
   var threads = 5;
-  var swarm = new PhantomJsSwarm();
+  var swarm = new PhantomJsSwarm({debugLogs: true});
   for (var i = 0; i < threads; i++) {
     swarm.run(function (callback) {
       setTimeout(function () {
@@ -57,7 +57,7 @@ Tinytest.addAsync('be able to run in parallel', function (test, next) {
 Tinytest.addAsync('enforce thread maximum', function (test, next) {
   var count = 0;
   var threads = 3;
-  var swarm = new PhantomJsSwarm({threadCount: threads});
+  var swarm = new PhantomJsSwarm({debugLogs: true, threadCount: threads});
   for (var i = 0; i < threads; i++) {
     swarm.run(function (callback) {
       setTimeout(function () {
@@ -92,7 +92,7 @@ Tinytest.addAsync('enforce thread maximum', function (test, next) {
 
 // Invalid
 Tinytest.addAsync('return error if JavaScript is broken', function (test, next) {
-  var swarm = new PhantomJsSwarm();
+  var swarm = new PhantomJsSwarm({debugLogs: true});
   swarm.run(function (callback) {
     This_is_a_bug;
   }, [], function (error, result) {
@@ -103,7 +103,7 @@ Tinytest.addAsync('return error if JavaScript is broken', function (test, next) 
 });
 
 Tinytest.addAsync('times out on forever loop', function (test, next) {
-  var swarm = new PhantomJsSwarm({defaultTimeoutMs: 3000});
+  var swarm = new PhantomJsSwarm({debugLogs: true, defaultTimeoutMs: 3000});
   swarm.run(function (callback) {
     while (true) {}
   }, [], function (error, result) {
