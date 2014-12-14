@@ -40,9 +40,7 @@ var service = server.listen(port, {
     }
     args.push(funcCallback);
     try {
-      console.log("Phantom: Starting function");
       func.apply(this, args);
-      console.log("Phantom: Ending function");
     } catch(err) {
       response.statusCode = 400;
       var output = {error: 400, reason: err.toString()};
