@@ -70,13 +70,19 @@ Template.phantomjsCode.events({
       height: Session.get('viewportHeight')
     };
     Session.set('phantomRun', true);
+    Session.set('screenshoots', [{name: "Loading",
+      url: "(none)",
+      image: WaitingScreenshoot}]);
+    Session.set('screenshootSelected', 0);
     Meteor.call('runPhantomJsCode', Session.get('phantomCode'), viewportSize,
         function (error, result) {
       if (error) {
         console.log("The error is", error);
         console.log(JSON.stringify(error));
-        // Session.set('screenshoots', result.screenshoots);
-        // Session.set('screenshootSelected', result.screenshoots.length - 1);
+        Session.set('screenshoots', [{name: "Error (check logs below)",
+          url: "(none)",
+          image: ErrorScreenshoot}]);
+        Session.set('screenshootSelected', 0);
         Session.set('logs', [{type: 'error', message: error.reason}]);
         Session.set('phantomRun', false);
       } else {
