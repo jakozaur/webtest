@@ -1,7 +1,7 @@
 var system = require('system');
 var port = system.args[1];
 
-if (!port){
+if (!port) {
   console.log('Must specify port as first argument.');
   phantom.exit(1);
 };

@@ -34,16 +34,15 @@ _.extend(PhantomJsSwarm.prototype, {
 
     cmd = shell.spawn(self.phantomJsPath, [self._tmpPhantomJsPath, port]);
 
-    //cmd = shell.spawn('phantomjs', [])
-
     // debug, later we will send it to logs
-    cmd.stderr.pipe(process.stderr);
-    cmd.stderr.pipe(process.stdout);
+    cmd.stderr.on('data', function (data) {
+      console.log("PhantomJS STDERR:", data.toString());
+    });
 
     cmd.stdout.on('data', Meteor.bindEnvironment(function (data) {
-      console.log(data.toString());
+      console.log("PhantomJS STDOUT: ", data.toString());
       data = String(data).trim();
-      if(data.substr(-5) === 'Ready'){
+      if (data.substr(-5) === 'Ready'){
         console.log("PhantomJs.run(): PhantomJs is ready, sending request");
 
         var request = JSON.stringify({
