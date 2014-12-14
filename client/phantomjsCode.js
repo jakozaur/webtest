@@ -75,6 +75,10 @@ Template.phantomjsCode.events({
       if (error) {
         console.log("The error is", error);
         console.log(JSON.stringify(error));
+        // Session.set('screenshoots', result.screenshoots);
+        // Session.set('screenshootSelected', result.screenshoots.length - 1);
+        Session.set('logs', [{type: 'error', message: error.reason}]);
+        Session.set('phantomRun', false);
       } else {
         console.log("The result is", result);
         Session.set('screenshoots', result.screenshoots);

@@ -75,7 +75,8 @@ Tinytest.addAsync('enforce thread maximum', function (test, next) {
       callback(undefined, "PASS");
     }, 1000);
   }, [], Meteor.bindEnvironment(function (error, result) {
-    test.equal(error, {"code":503,"reason":"Too many PhantomJS running."});
+    test.equal(error.error, 503);
+    test.equal(error.reason, "Too many PhantomJS running.");
     test.equal(result, null);
   }));
 
@@ -96,7 +97,8 @@ Tinytest.addAsync('return error if JavaScript is broken', function (test, next) 
   swarm.run(function (callback) {
     This_is_a_bug;
   }, [], function (error, result) {
-    test.equal(error, {"error":400,"reason":"ReferenceError: Can\'t find variable: This_is_a_bug"});
+    test.equal(error.error, 400);
+    test.equal(error.reason, "ReferenceError: Can't find variable: This_is_a_bug");
     test.equal(result, null);
     next();
   });
@@ -107,7 +109,8 @@ Tinytest.addAsync('times out on forever loop', function (test, next) {
   swarm.run(function (callback) {
     while (true) {}
   }, [], function (error, result) {
-    test.equal(error, {"code":408,"reason":"The code has timed out"} );
+    test.equal(error.error, 408);
+    test.equal(error.reason, "The code has timed out");
     test.equal(result, null);
     next();
   });

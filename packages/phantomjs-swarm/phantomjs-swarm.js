@@ -51,7 +51,7 @@ PhantomJsSwarm = function (options) {
     var foundPort = PhantomJsServers.update({usedBy: ""},
       {$set: {usedBy: runId}});
     if (foundPort == 0) { // handle case if we hit maximum number of threads
-      callback({"code":503,"reason":"Too many PhantomJS running."}, null);
+      callback(new Meteor.Error(503, "Too many PhantomJS running."), null);
       return;
     }
     var server = PhantomJsServers.findOne({usedBy: runId});
@@ -90,9 +90,10 @@ PhantomJsSwarm = function (options) {
             PhantomJsServers.update({usedBy: runId}, {$set: {usedBy: ""}});
             if (error) {
               if (error.code == 'ETIMEDOUT' || error.code == 'ESOCKETTIMEDOUT') {
-                callback({code: 408, reason: 'The code has timed out'}, null);
+                callback(new Meteor.Error(408, 'The code has timed out'), null);
               } else {
-                callback(JSON.parse(error.response.content), null)
+                var errorContent = JSON.parse(error.response.content);
+                callback(new Meteor.Error(errorContent.error, errorContent.reason), null)
               }
             } else {
               callback(null, JSON.parse(result.content));
