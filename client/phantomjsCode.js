@@ -72,12 +72,17 @@ Template.phantomjsCode.events({
     Session.set('phantomRun', true);
     Meteor.call('runPhantomJsCode', Session.get('phantomCode'), viewportSize,
         function (error, result) {
-      console.log("The result title is %s, errors %s", result, error);
-      Session.set('screenshoots', result.screenshoots);
-      Session.set('screenshootSelected', result.screenshoots.length - 1);
+      if (error) {
+        console.log("The error is", error);
+        console.log(JSON.stringify(error));
+      } else {
+        console.log("The result is", result);
+        Session.set('screenshoots', result.screenshoots);
+        Session.set('screenshootSelected', result.screenshoots.length - 1);
 
-      Session.set('logs', result.logs);
-      Session.set('phantomRun', false);
+        Session.set('logs', result.logs);
+        Session.set('phantomRun', false);
+      }
     });
   },
   'click button.share': function () {
