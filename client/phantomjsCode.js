@@ -30,7 +30,21 @@ Session.setDefault('example-1', "\
     phantom.exit();\n\
 });");
 
-Session.setDefault('example-2', "error"); 
+Session.setDefault('example-2', "page.onConsoleMessage = function(msg) {\n\
+    console.log(msg);\n\
+};\n\
+page.open(\"http://www.phantomjs.org\", function(status) {\n\
+    if ( status === \"success\" ) {\n\
+        page.includeJs(\"http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js\", function() {\n\
+            page.evaluate(function() {\n\
+                console.log(\"$(\\\".explanation\\\").text() -> \" + $(\".explanation\").text());\n\
+                console.log(\"$(\\\"h1\\\").text() -> \" + $(\"h1\").text());\n\
+            });\n\
+            phantom.exit();\n\
+        });\n\
+    }\n\
+});\n\
+"); 
 
 Session.setDefault('example-3', "page.viewportSize = { width: 320, height: 480 };\n\
 page.open(\'http://news.google.com/news/i/section?&topic=t\', function (status) {\n\

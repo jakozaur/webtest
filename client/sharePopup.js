@@ -39,6 +39,19 @@ Template.examples.events({
   }, 
   'click .overlay': function () {
     Session.set('showExamples', undefined);
+  },
+  'click #example-1': function () {
+    Session.set('showExamples', undefined);
+    Session.set('phantomCode', Session.get('example-1'));
+  },
+  'click #example-2': function () {
+    Session.set('showExamples', undefined);
+    Session.set('phantomCode', Session.get('example-2'));
+
+  },
+  'click #example-3': function () {
+    Session.set('showExamples', undefined);
+    Session.set('phantomCode', Session.get('example-3'));
   }
 })
 
