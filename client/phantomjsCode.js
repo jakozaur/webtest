@@ -12,9 +12,9 @@ page.open(\"http://google.com\", function (status) {\n\
 });");
 
 Session.setDefault('example-1', "\
- var url = 'http://lite.yelp.com/search?find_desc=seafood&find_loc=94040&find_submit=Search';\n\
+var url = 'http://lite.yelp.com/search?find_desc=seafood&find_loc=94040&find_submit=Search';\n\
 \n\
-  page.open(url, function (status) {\
+page.open(url, function (status) {\n\
     if (status !== \'success\') {\n\
         console.log(\'Unable to access network\');\n\
     } else {\n\

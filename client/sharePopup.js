@@ -34,7 +34,7 @@ Template.examples.helpers({
 });
 
 Template.examples.events({
-  'click #close': function () {
+  'click .close': function () {
     Session.set('showExamples', undefined);
   }, 
   'click .overlay': function () {

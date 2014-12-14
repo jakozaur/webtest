@@ -177,14 +177,6 @@ p {
   filter: alpha(opacity=80);
 }
 
-#sharePopup a {
-  padding: 10px 25px;
-  background-color: #939393; 
-  border-radius: 5px;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 400;
-  color: black;
-}
 
 #sharePopup input {
   min-width: 270px;
@@ -229,18 +221,22 @@ p {
   filter: alpha(opacity=80);
 }
 
-#examples #close {
+#examples .close, #sharePopup .close {
   padding: 10px 25px;
   background-color: #939393; 
   border-radius: 5px;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
   color: black;
-  margin: 0 auto;
+  text-align: center;
+}
+
+#examples p, #sharePopup p {
+  text-align: center;
 }
 
 #examples button {
-  padding: 10px 25px;
+  padding: 10px 10px;
   font-size: 70%;
   border: none;
   background-color: #E0E0E0;
@@ -253,7 +249,10 @@ p {
   background-color: #F0F0F0;
 }
 
-
+#examples button.example-test {
+  display: inline-block;
+  margin-bottom: 7px;
+}
 
 
 
