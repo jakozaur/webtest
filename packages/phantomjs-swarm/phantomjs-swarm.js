@@ -40,7 +40,7 @@ _.extend(PhantomJsSwarm.prototype, {
     });
 
     cmd.stdout.on('data', Meteor.bindEnvironment(function (data) {
-      console.log("PhantomJS STDOUT: ", data.toString());
+      console.log("PhantomJS STDOUT:", data.toString());
       data = String(data).trim();
       if (data.substr(-5) === 'Ready'){
         console.log("PhantomJs.run(): PhantomJs is ready, sending request");
