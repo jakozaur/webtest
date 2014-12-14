@@ -14,6 +14,7 @@
     {{> consoleLog}}
   </div>
   {{> sharePopup}}
+  {{> examples}}
 </template>
 
 <template name="browserView">
@@ -45,6 +46,7 @@
     <div class="button-container">
       <button class="run">{{phantomRun}}<img src="/img/refresh.png" class="spinner {{running}}"></button>
       <button class="share">Share</button>
+      <button class="examples">Examples</button>  
     </div>
   </div>
 </template>
@@ -67,6 +69,17 @@
     <div class="{{show}} content"><p>You can share your code using this link:</p>
       <input type="text" readonly="readonly" value="{{url}}">
       <p><a href="#">Close</a></p></div>
+    <div class="{{show}} overlay"></div>
+  </div>
+</template>
+
+<template name="examples">
+  <div id="examples">
+    <div class="{{show}} content"><p>See example tests running right away!</p>
+      <button class="example-test" id="example-1">Example 1</button>  
+      <button class="example-test" id="example-2">Example 2</button>  
+      <button class="example-test" id="example-3">Example 3</button>  
+      <p><a href="#" id="close">Close</a></p></div>
     <div class="{{show}} overlay"></div>
   </div>
 </template>
