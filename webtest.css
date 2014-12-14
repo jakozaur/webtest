@@ -131,6 +131,9 @@ p {
 .site-error {
   background-color: #ff0000;
 }
+.error {
+  background-color: #990066;
+}
 
 #phantomjs-code button img {
   display: none;
