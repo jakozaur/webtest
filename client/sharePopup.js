@@ -21,4 +21,28 @@ Template.sharePopup.events({
   'click input': function (event, tmpl) {
     tmpl.$('input').select();
   }
+});
+
+Template.examples.helpers({
+  show: function () {
+    if (Session.get('showExamples')) {
+      return 'show';
+    } else {
+      return '';
+    }
+  }
+});
+
+Template.examples.events({
+  'click #close': function () {
+    Session.set('showExamples', undefined);
+  }, 
+  'click .overlay': function () {
+    Session.set('showExamples', undefined);
+  }
 })
+
+
+
+
+

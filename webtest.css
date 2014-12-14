@@ -103,9 +103,20 @@ p {
   cursor: pointer;
 }
 
+#phantomjs-code .button-container button.example {
+  background-color: #E0E0E0;
+}
+
+#phantomjs-code .button-container button.example:hover {
+  background-color: #F0F0F0;
+}
+
+
+
 #phantomjs-code button:hover {
   background-color: #939393;
 }
+
 
 #console-log {
   width: 100%;
@@ -193,6 +204,57 @@ p {
   font-size: 14px;
 }
 
+/* Examples popup */
+
+#examples div {
+  display: none;
+}
+
+#examples .show.content {
+  display: block;
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  width: 30%;
+  height: 30%;
+  padding: 16px;
+  border: 18px solid #939393;
+  background-color: white;
+  z-index:1002;
+  overflow: auto;
+  border-radius: 5px;
+}
+
+#examples .show.overlay {
+  display: block;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index:1001;
+  -moz-opacity: 0.8;
+  opacity:.80;
+  filter: alpha(opacity=80);
+}
+
+#examples a {
+  padding: 10px 25px;
+  background-color: #939393; 
+  border-radius: 5px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  color: black;
+}
+
+#examples input {
+  min-width: 270px;
+  margin-bottom: 12px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
 
 
 
