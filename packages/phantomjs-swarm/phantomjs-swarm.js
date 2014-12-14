@@ -41,8 +41,12 @@ _.extend(PhantomJsSwarm.prototype, {
   run: function(func, args, callback) {
     var self = this;
     var runId = Random.id();
-    PhantomJsServers.update({usedBy: ""}, {$set: {usedBy: runId}});
-    // TODO: check if right
+    var foundPort = PhantomJsServers.update({usedBy: ""},
+      {$set: {usedBy: runId}});
+    if (foundPort == 0) { // handle case if we hit maximum number of threads
+      callback({"code":503,"reason":"Too many PhantomJS running."}, null);
+      return;
+    }
     var server = PhantomJsServers.findOne({usedBy: runId});
 
     console.log("PhantomJs.run(): Launching new PhantomJs on port", server.port);
