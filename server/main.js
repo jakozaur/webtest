@@ -15,39 +15,54 @@ Meteor.methods({
         logs: [],
         screenshoots: []
       };
-      var page = require('webpage').create();
+      var myRequire = function (name) {
+        if (name !== 'webpage') {
+          throw new Error("require() in PhantomJS Pad support only 'webpage' " +
+            "b/c of security issues. Let authors know if you need it.");
+        } else {
+          var webpage = require('webpage');
+          var myWebpage = Object.create(webpage);
+          myWebpage.create = function () {
+            var page = webpage.create();
 
-      page.viewportSize = viewportSize;
-      page.clipRect = viewportSize;
+            page.viewportSize = viewportSize;
+            page.clipRect = viewportSize;
 
-      page.onConsoleMessage = function (msg) {
-        result.logs.push({
-          type: "site",
-          message: msg
-        });
-      }
+            page.onConsoleMessage = function (msg) {
+              result.logs.push({
+                type: "site",
+                message: msg
+              });
+            }
 
-      page.onError = function (msg, trace) {
-        result.logs.push({
-          type: "site error",
-          message: msg,
-          trace: trace
-        });
-      }
+            page.onError = function (msg, trace) {
+              result.logs.push({
+                type: "site error",
+                message: msg,
+                trace: trace
+              });
+            }
+
+            var myPage = Object.create(page);
+            myPage.render = function(name) {
+              result.screenshoots.push({
+                name: name,
+                url: page.url,
+                image: page.renderBase64('PNG')
+              });
+            }
+
+            return myPage;
+          };
+
+          return myWebpage;
+        }
+      };
 
       console.log = function (msg) {
         result.logs.push({
           type: "phantom",
           message: msg
-        });
-      }
-
-      var myPage = Object.create(page);
-      myPage.render = function(name) {
-        result.screenshoots.push({
-          name: name,
-          url: page.url,
-          image: page.renderBase64('PNG')
         });
       }
 
@@ -60,9 +75,17 @@ Meteor.methods({
         });
         callbackOrigin(undefined, result);
       }
-      var func = new Function('page', 'phantom', code);
 
-      return func(myPage, myPhantom);
+      var myWindow = {};
+      myWindow.setTimeout = setTimeout;
+      myWindow.setInterval = setInterval;
+      myWindow.clearInterval = clearInterval;
+
+      var page = myRequire('webpage').create();
+
+      var func = new Function('page', 'phantom', 'require', 'window', code);
+
+      return func(page, myPhantom, myRequire, myWindow);
     }
     return Meteor.wrapAsync(phantomSwarm.run)(runCode, [code, viewportSize]);
   }
