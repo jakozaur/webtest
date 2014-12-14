@@ -1,6 +1,6 @@
-var phantom;
+var phantomSwarm;
 Meteor.startup(function () {
-  phantom = phantomLaunch()
+  phantomSwarm = new PhantomJsSwarm();
 
   // code to run on server at startup
 });
@@ -64,7 +64,6 @@ Meteor.methods({
 
       return func(myPage, myPhantom);
     }
-    var result = phantom(runCode, code, viewportSize);
-    return result;
+    return Meteor.wrapAsync(phantomSwarm.run)(runCode, [code, viewportSize]);
   }
 });
