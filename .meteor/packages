@@ -7,3 +7,5 @@ meteor-platform
 iron:router
 phantomjs-swarm
 perak:codemirror
+datariot:ganalytics
+

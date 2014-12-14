@@ -44,7 +44,7 @@ page.open(\"http://www.phantomjs.org\", function(status) {\n\
         });\n\
     }\n\
 });\n\
-"); 
+");
 
 Session.setDefault('example-3', "page.viewportSize = { width: 320, height: 480 };\n\
 page.open(\'http://news.google.com/news/i/section?&topic=t\', function (status) {\n\
@@ -116,6 +116,7 @@ Template.phantomjsCode.helpers({
 Template.phantomjsCode.events({
   'click button.run': function (event, tmpl) {
     console.log("Running PhantomJS code '%s'", Session.get('phantomCode'));
+    GAnalytics.event('phantomjs', 'run');
     var viewportSize = {
       width: Session.get('viewportWidth'),
       height: Session.get('viewportHeight')
@@ -162,11 +163,3 @@ Template.phantomjsCode.events({
     Session.set('showExamples', true);
   }
 });
-
-
-
-
-
-
-
-
