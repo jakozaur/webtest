@@ -81,11 +81,14 @@ Meteor.methods({
       myWindow.setInterval = setInterval;
       myWindow.clearInterval = clearInterval;
 
+      var myGlobal = {};
+
       var page = myRequire('webpage').create();
 
-      var func = new Function('page', 'phantom', 'require', 'window', code);
+      var func = new Function('page', 'phantom', 'require', 'window', 'global',
+        code);
 
-      return func(page, myPhantom, myRequire, myWindow);
+      return func(page, myPhantom, myRequire, myWindow, myGlobal);
     }
     return Meteor.wrapAsync(phantomSwarm.run)(runCode, [code, viewportSize]);
   }
