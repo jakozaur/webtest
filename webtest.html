@@ -7,6 +7,7 @@
 <template name="main">
   <h1>Develop and share your <a href="http://phantomjs.org" target="_blank">PhantomJS</a> code
   <small>made with love by <a href="https://twitter.com/jakozaur" target="_blank">@jakozaur</a> and <a href="https://twitter.com/GosiaMigdal" target="_blank">@GosiaMigdal</a></small></h1>
+  <p class="mini">We use PhantomJS 1.9.8</p>
   <div class="container">
     {{> browserView}}
     <div class="slider"></div>
@@ -44,9 +45,9 @@
       <textarea id="code">{{code}}</textarea>
     </div>
     <div class="button-container">
-      <button class="run">{{phantomRun}}<img src="/img/refresh.png" class="spinner {{running}}"></button>
-      <button class="share">Share</button>
-      <button class="examples">Examples</button>  
+      <button type="button" class="run">{{phantomRun}}<img src="/img/refresh.png" class="spinner {{running}}"></button>
+      <button type="button" class="share">Share</button>
+      <button type="button" class="examples">Examples</button>  
     </div>
   </div>
 </template>
