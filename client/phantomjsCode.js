@@ -19,11 +19,11 @@ page.open(url, function (status) {\n\
         console.log(\'Unable to access network\');\n\
     } else {\n\
         var results = page.evaluate(function() {\n\
-            var list = document.querySelectorAll('address'), pizza = [], i;\n\
+            var list = document.querySelectorAll('address'), seafood = [], i;\n\
             for (i = 0; i < list.length; i++) {\n\
-                pizza.push(list[i].innerText);\n\
+                seafood.push(list[i].innerText);\n\
             }\n\
-            return pizza;\n\
+            return seafood;\n\
         });\n\
         console.log(results.join('\\n'));\n\
     }\n\
